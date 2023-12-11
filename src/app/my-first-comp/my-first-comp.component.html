@@ -16,7 +16,7 @@
     <button type="submit">Submit</button>
   </form>
 
-  <table *ngIf="isSubmitted">
+  <!-- <table *ngIf="isSubmitted">
     <thead>
       <tr>
         <th>#</th>
@@ -33,7 +33,7 @@
         <td>{{ msg.message }}</td>
       </tr>
     </tbody>
-  </table>
+  </table> -->
 
   <!-- <div *ngIf="isSubmitted">
     <h3>Form Data</h3>
@@ -41,4 +41,13 @@
     <p>Email: {{ email }}</p>
     <p>Message: {{ message }}</p>
   </div> -->
+
+  <div class="flex-container" *ngIf="isSubmitted">
+    <app-message-details
+      *ngFor="let msg of messages; let i = index"
+      [message]="msg"
+      [index]="i"
+      (delete)="deleteMessage($event)"
+    ></app-message-details>
+  </div>
 </div>
