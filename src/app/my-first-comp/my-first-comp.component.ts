@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { MessageDetailsComponent } from '../message-details/message-details.component';
+import { MyFirstService } from '../services/my-first.service';
 
 @Component({
   selector: 'app-my-first-comp',
@@ -18,10 +19,20 @@ export class MyFirstCompComponent {
   message: string = '';
   isSubmitted: boolean = false;
   messages: Array<any> = [];
+  // // Property injection method
+  // private service: MyFirstService = inject(MyFirstService);
+
+  // Contructor injection method
+  constructor(
+    private service: MyFirstService
+  ) {
+    this.messages = this.service.getAllMessages();
+    this.isSubmitted = this.messages.length > 0;
+  }
 
   onSubmit() {
     this.isSubmitted = true;
-    this.messages.push({
+    this.service.insert({
       'name': this.name,
       'email': this.email,
       'message': this.message
@@ -29,6 +40,6 @@ export class MyFirstCompComponent {
   }
 
   deleteMessage(index: number) {
-    this.messages.splice(index, 1);
+    this.service.deleteMessage(index);
   }
 }
